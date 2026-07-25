@@ -3,10 +3,8 @@ import discord
 from discord.ext import commands
 from google import genai
 
-# Khởi tạo Gemini client bảo mật bằng biến môi trường trên Render
 client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
-# Cấu hình Discord Bot Intents
 intents = discord.Intents.default()
 intents.message_content = True
 
@@ -21,7 +19,6 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
-    # Kiểm tra nếu có tin nhắn thì gửi cho Gemini xử lý
     if message.content:
         try:
             response = client.models.generate_content(
@@ -34,5 +31,4 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
-# Chạy bot bằng token bảo mật trên Render
 bot.run(os.environ.get("DISCORD_BOT_TOKEN"))
